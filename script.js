@@ -5,6 +5,10 @@ var formEl = document.querySelector('form');
 
 var apiKey = '062ac5aed23ac309d8aa8d7807a42e70';
 
+init() {
+
+}
+
 // Gets the geographical longitude and latitude of the city
 function getLocation(city) {
     // Allow cities with spaces in their names to be inserted in the URL
@@ -24,3 +28,5 @@ function getLocation(city) {
         console.log(err);
       });
   } 
+
+  init();
