@@ -1,11 +1,11 @@
 // https://www.loc.gov/FORMAT/?q=civil war&fo=json |Search with format
 var searchResultsEl = document.querySelector('#search-results');
 var qEl = document.querySelector('#q');
-var formEl = document.querySelector('form');
+var formEl = document.querySelector('#search-form');
 
 var apiKey = '062ac5aed23ac309d8aa8d7807a42e70';
 
-init() {
+function init() {
 
 }
 
@@ -28,5 +28,17 @@ function getLocation(city) {
         console.log(err);
       });
   } 
+
+  function getHistory(city) {
+    console.log(city);
+  }
+
+  formEl.addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    var q = qEl.value;
+    getLocation(q);
+    getHistory(q);
+  });
 
   init();
