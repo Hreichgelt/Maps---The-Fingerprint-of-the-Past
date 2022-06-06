@@ -5,6 +5,15 @@ var formEl = document.querySelector('#search-form');
 
 var apiKey = '062ac5aed23ac309d8aa8d7807a42e70';
 
+function getMap(lat, lon){
+    var map = L.map('map').setView([lat, lon], 1);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+}
+
 function init() {
 
 }
@@ -21,7 +30,7 @@ function getLocation(city) {
         })
         .then(function (data) {
             // TODO: create getMap function
-            // getMap(data[0].lat, data[0].lon);
+            getMap(data[0].lat, data[0].lon);
             console.log(data);
         })
         .catch(function (err) {
