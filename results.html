@@ -1,12 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Maps || The Fingerprint of the Past</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
-<body>
-    
+<header class="row bg-dark text-light card p-4">
+    <h1>Map Search</h1>
+    <form class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search for a City">
+        <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
+    </form>
+</header>
+
+<body class="bg-light text-dark p-5 min-vh-100 d-flex">
+
+    <section class="row">
+        <div id="map" class="col-12 col-md-6">Map</div>
+        <article id="search-results" class="col-12 col-md-6">
+            <article class="card p-3 bg-dark text-light ">
+                <h3>Story Title</h3>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium voluptatum esse tenetur,
+                    numquam
+                    pariatur expedita laboriosam quo officiis, animi eaque vero quae dignissimos minus explicabo
+                    praesentium dicta eos perferendis blanditiis.</p>
+                <button class="btn btn-light text-dark">Learn More</button>
+            </article>
+        </article>
+    </section>
 </body>
+
+<script src="script.js"></script>
+
 </html>
