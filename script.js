@@ -16,33 +16,63 @@ function getLocation(city) {
     // Fetches geocode data via Open Weather Map
     // Reference: https://openweathermap.org/api/geocoding-api
     fetch('https://api.openweathermap.org/geo/1.0/direct?q=' + newCity + '&limit=1&appid=' + apiKey)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        // TODO: create getMap function
-        // getMap(data[0].lat, data[0].lon);
-        console.log(data);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-  } 
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            // TODO: create getMap function
+            // getMap(data[0].lat, data[0].lon);
+            console.log(data);
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
+}
 
-  function getHistory(city) {
+function getHistory(city) {
     fetch('https://www.loc.gov/maps/?q=' + city + '&fo=json&c=10')
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function (data) {
-      console.log(data.results);
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
-  }
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            searchResultsEl.innerHTML = null;
+            console.log(data.results);
+            // <article class="card p-3 bg-dark text-light my-4">
+            //     <h3>Story Title</h3>
+            //     <img>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium voluptatum esse tenetur,
+            //         numquam
+            //         pariatur expedita laboriosam quo officiis, animi eaque vero quae dignissimos minus explicabo
+            //         praesentium dicta eos perferendis blanditiis.</p>
+            //     <button class="btn btn-light text-dark mt-3">Learn More</button>
+            // </article>
 
-  formEl.addEventListener('submit', function(event) {
+            for (var result of data.results) {
+                var articleEl = document.createElement('article');
+                articleEl.className = 'card p-3 bg-dark text-light my-4';
+
+                var h3El = document.createElement('h3');
+                h3El.textContent = result.title;
+
+                var imgEl = document.createElement('img');
+                imgEl.src = result.image_url[2];
+
+                var btnEl = document.createElement('a');
+                btnEl.className = 'btn btn-light text-dark mt-3';
+                btnEl.textContent = 'Learn More';
+                btnEl.href = result.url;
+                btnEl.target = "_blank";
+
+                searchResultsEl.append(articleEl);
+                articleEl.append(h3El, imgEl, btnEl);
+            }
+        })
+
+        .catch(function (err) {
+            console.log(err);
+        });
+}
+
+formEl.addEventListener('submit', function (event) {
     event.preventDefault();
     var q = qEl.value;
 
@@ -50,6 +80,6 @@ function getLocation(city) {
 
     getLocation(q);
     getHistory(q);
-  });
+});
 
-  init();
+init();
