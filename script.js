@@ -2,8 +2,24 @@
 var searchResultsEl = document.querySelector('#search-results');
 var qEl = document.querySelector('#q');
 var formEl = document.querySelector('#search-form');
+var mapTitle = document.querySelector(".city-head")
 
 var apiKey = '062ac5aed23ac309d8aa8d7807a42e70';
+
+function getMap(city, lat, lon){
+    console.log(lat, lon)
+    var map; 
+    // map.innerText = null; 
+    mapTitle.textContent = city.toUpperCase();
+    map = L.map('map').setView([lat, lon], 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+    var marker = L.marker([lat, lon]).addTo(map);
+    
+
+}
 
 function init() {
 
@@ -21,7 +37,7 @@ function getLocation(city) {
         })
         .then(function (data) {
             // TODO: create getMap function
-            // getMap(data[0].lat, data[0].lon);
+            getMap(city, data[0].lat, data[0].lon);
             console.log(data);
         })
         .catch(function (err) {
@@ -74,7 +90,7 @@ function getHistory(city) {
 
 formEl.addEventListener('submit', function (event) {
     event.preventDefault();
-    var q = qEl.value;
+    var q = qEl.value.trim();
 
     if (!q) return;
 
