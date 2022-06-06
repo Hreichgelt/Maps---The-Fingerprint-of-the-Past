@@ -1,4 +1,4 @@
-// https://www.loc.gov/FORMAT/?q=civil war&fo=json |Search with format
+// https://www.loc.gov/FORMAT/?q=civilwar&fo=json |Search with format
 var searchResultsEl = document.querySelector('#search-results');
 var qEl = document.querySelector('#q');
 var formEl = document.querySelector('#search-form');
@@ -30,13 +30,24 @@ function getLocation(city) {
   } 
 
   function getHistory(city) {
-    console.log(city);
+    fetch('https://www.loc.gov/maps/?q=' + city + '&fo=json&c=10')
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data.results);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
   }
 
   formEl.addEventListener('submit', function(event) {
     event.preventDefault();
-    
     var q = qEl.value;
+
+    if (!q) return;
+
     getLocation(q);
     getHistory(q);
   });
