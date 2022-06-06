@@ -1,3 +1,7 @@
+// https://www.loc.gov/FORMAT/?q=civil war&fo=json |Search with format
+var searchResultsEl = document.querySelector('#search-results');
+var qEl = document.querySelector('#q');
+var formEl = document.querySelector('form');
 
 var apiKey = '062ac5aed23ac309d8aa8d7807a42e70';
 
@@ -19,6 +23,4 @@ function getLocation(city) {
       .catch(function (err) {
         console.log(err);
       });
-  }
-
-getLocation('Charlotte');
+  } 
