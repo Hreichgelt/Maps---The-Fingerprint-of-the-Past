@@ -3,6 +3,7 @@ var searchResultsEl = document.querySelector('#search-results');
 var qEl = document.querySelector('#q');
 var formEl = document.querySelector('.search-form');
 var mapTitle = document.querySelector(".city-head")
+var wrap = document.querySelector(".textWrap")
 
 var apiKey = '062ac5aed23ac309d8aa8d7807a42e70';
 // newMap = map.remove();
@@ -34,10 +35,11 @@ function initializeMap() {
 }
 function init() {
     if (location.search) {
-        var url = new URL(location.href);
-        var q = url.searchParams.get('q');
+        var storedCity = JSON.parse(localStorage.getItem("cities")) || [];
+        var q = storedCity.pop()
+        // var url = new URL(location.href);
+        // var q = url.searchParams.get('q');
         getHistory(q);
-        storeCity(q);
         getLocation(q);
     }
 };
@@ -76,7 +78,7 @@ function getHistory(city) {
             return response.json();
         })
         .then(function (data) {
-            searchResultsEl.innerHTML = null;
+            document.querySelectorAll('.mapResult').forEach(e=>e.remove());
             console.log(data.results);
             // <article class="card p-3 bg-dark text-light my-4">
             //     <h3>Story Title</h3>
@@ -89,13 +91,18 @@ function getHistory(city) {
 
             for (var result of data.results) {
                 var articleEl = document.createElement('article');
-                articleEl.className = 'card p-3 bg-dark text-light mb-4';
+                articleEl.className = 'col-12 col-md-6 mapResult';
+
+                var cardEl = document.createElement('div');
+                cardEl.className = 'card p-3 bg-dark text-light mb-4 h-100';
 
                 var h3El = document.createElement('h3');
                 h3El.textContent = result.title;
 
                 var imgEl = document.createElement('img');
                 imgEl.src = result.image_url[2];
+                
+
 
                 var btnEl = document.createElement('a');
                 btnEl.className = 'btn btn-light text-dark mt-3';
@@ -103,8 +110,10 @@ function getHistory(city) {
                 btnEl.href = result.url;
                 btnEl.target = "_blank";
 
-                searchResultsEl.append(articleEl);
-                articleEl.append(h3El, imgEl, btnEl);
+                cardEl.append(h3El, imgEl, btnEl);
+                articleEl.append(cardEl)
+                console.log(articleEl);
+                wrap.append(articleEl);
             }
         })
 
@@ -125,6 +134,7 @@ formEl.addEventListener('submit', function (event) {
         getLocation(q);
     } else {
         location.replace('./results.html?q=' + q);
+        storeCity(q);
     }
 });
 
