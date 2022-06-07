@@ -15,37 +15,35 @@
         integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
         crossorigin=""></script>
     <style>
-        #map { height: 100vh;
+        #map {
+            height: 100vh;
             text-transform: capitalize;
             border-radius: 20px;
         }
-        .city-head{
+
+        .city-head {
             text-transform: capitalize;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif
         }
     </style>
 </head>
 
 <body class="bg-light text-dark p-5 min-vh-100">
-    <header class="row bg-dark text-light card my-3 p-4">
+    <header class="row bg-dark text-light text-center card my-3 p-4">
         <h1>Map Search</h1>
-        <form class="input-group mb-3 search-form">
-            <input id="q" type="text" class="form-control" placeholder="Search for a City">
-            <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
+        <form class="input-group mb-3 search-form justify-content-center">
+            <input id="q" type="text" placeholder="Search for a City">
+            <button class="btn btn-primary" type="submit">Search</button>
         </form>
     </header>
     <section class="row textWrap gy-4">
         <h2 class="city-head"></h2>
         <div id="map" class="col-12 col-md-6">map</div>
-        <!-- <article id="search-results" class="col-12 col-md-6">
-            <article class="card p-3 bg-dark text-light ">
-                <h3>Story Title</h3>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium voluptatum esse tenetur,
-                    numquam
-                    pariatur expedita laboriosam quo officiis, animi eaque vero quae dignissimos minus explicabo
-                    praesentium dicta eos perferendis blanditiis.</p>
-                <button class="btn btn-light text-dark">Learn More</button>
-            </article>
-        </article> -->
     </section>
 </body>
 
