@@ -6,15 +6,9 @@ var mapTitle = document.querySelector(".city-head")
 var wrap = document.querySelector(".textWrap")
 
 var apiKey = '062ac5aed23ac309d8aa8d7807a42e70';
-// newMap = map.remove();
 
 
 function getMap(city, lat, lon) {
-
-    // newMap;
-    console.log(lat, lon)
-    // var map; 
-    // map.innerText = null; 
     mapTitle.textContent = city;
     var map = L.map('map').setView([lat, lon], 12);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -37,8 +31,6 @@ function init() {
     if (location.search) {
         var storedCity = JSON.parse(localStorage.getItem("cities")) || [];
         var q = storedCity.pop()
-        // var url = new URL(location.href);
-        // var q = url.searchParams.get('q');
         getHistory(q);
         getLocation(q);
     }
@@ -58,8 +50,6 @@ function getLocation(city) {
             // TODO: create getMap function
             initializeMap();
             getMap(city, data[0].lat, data[0].lon);
-
-            console.log(data);
         })
         .catch(function (err) {
             console.log(err);
@@ -79,7 +69,6 @@ function getHistory(city) {
         })
         .then(function (data) {
             document.querySelectorAll('.mapResult').forEach(e=>e.remove());
-            console.log(data.results);
             // <article class="card p-3 bg-dark text-light my-4">
             //     <h3>Story Title</h3>
             //     <img>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium voluptatum esse tenetur,
@@ -112,7 +101,6 @@ function getHistory(city) {
 
                 cardEl.append(h3El, imgEl, btnEl);
                 articleEl.append(cardEl)
-                console.log(articleEl);
                 wrap.append(articleEl);
             }
         })
