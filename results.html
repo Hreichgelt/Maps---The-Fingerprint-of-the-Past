@@ -15,20 +15,28 @@
         integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
         crossorigin=""></script>
     <style>
-        #map { height: 100vh;
+        #map {
+            height: 100vh;
             text-transform: capitalize;
             border-radius: 20px;
         }
-        .city-head{
+
+        .city-head {
             text-transform: capitalize;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif
         }
     </style>
 </head>
 
 <body class="bg-light text-dark p-5 min-vh-100">
-    <header class="row bg-dark text-light card my-3 p-4">
+    <header class="row bg-dark text-light text-center card my-3 p-4">
         <h1>Map Search</h1>
-        <form class="input-group mb-3 search-form">
+        <form class="input-group mb-3 search-form justify-content-center">
             <input id="q" type="text" placeholder="Search for a City">
             <button class="btn btn-primary" type="submit">Search</button>
         </form>

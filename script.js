@@ -96,6 +96,7 @@ function getHistory(city) {
                 var btnEl = document.createElement('a');
                 btnEl.className = 'btn btn-light text-dark mt-auto';
                 btnEl.textContent = 'Learn More';
+                btnEl.style.fontFamily = "'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif'";
                 btnEl.href = result.url;
                 btnEl.target = '_blank';
 
