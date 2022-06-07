@@ -34,10 +34,11 @@ function initializeMap() {
 }
 function init() {
     if (location.search) {
-        var url = new URL(location.href);
-        var q = url.searchParams.get('q');
+        var storedCity = JSON.parse(localStorage.getItem("cities")) || [];
+        var q = storedCity.pop()
+        // var url = new URL(location.href);
+        // var q = url.searchParams.get('q');
         getHistory(q);
-        storeCity(q);
         getLocation(q);
     }
 };
@@ -125,6 +126,7 @@ formEl.addEventListener('submit', function (event) {
         getLocation(q);
     } else {
         location.replace('./results.html?q=' + q);
+        storeCity(q);
     }
 });
 
