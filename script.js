@@ -2,8 +2,8 @@
 var searchResultsEl = document.querySelector('#search-results');
 var qEl = document.querySelector('#q');
 var formEl = document.querySelector('.search-form');
-var mapTitle = document.querySelector(".city-head")
-var wrap = document.querySelector(".textWrap")
+var mapTitle = document.querySelector('.city-head')
+var wrap = document.querySelector('.textWrap');
 
 var apiKey = '062ac5aed23ac309d8aa8d7807a42e70';
 
@@ -29,8 +29,8 @@ function initializeMap() {
 }
 function init() {
     if (location.search) {
-        var storedCity = JSON.parse(localStorage.getItem("cities")) || [];
-        var q = storedCity.pop()
+        var storedCity = JSON.parse(localStorage.getItem('cities')) || [];
+        var q = storedCity.pop();
         getHistory(q);
         getLocation(q);
     }
@@ -39,7 +39,7 @@ function init() {
 // Gets the geographical longitude and latitude of the city
 function getLocation(city) {
     // Allow cities with spaces in their names to be inserted in the URL
-    var newCity = city.replace(/ /g, "+");
+    var newCity = city.replace(/ /g, '+');
     // Fetches geocode data via Open Weather Map
     // Reference: https://openweathermap.org/api/geocoding-api
     fetch('https://api.openweathermap.org/geo/1.0/direct?q=' + newCity + '&limit=1&appid=' + apiKey)
@@ -57,9 +57,9 @@ function getLocation(city) {
 }
 
 function storeCity(city) {
-    var storedCity = JSON.parse(localStorage.getItem("cities")) || [];
+    var storedCity = JSON.parse(localStorage.getItem('cities')) || [];
     storedCity.push(city);
-    localStorage.setItem("cities", JSON.stringify(storedCity));
+    localStorage.setItem('cities', JSON.stringify(storedCity));
 }
 
 function getHistory(city) {
@@ -69,13 +69,13 @@ function getHistory(city) {
         })
         .then(function (data) {
             document.querySelectorAll('.mapResult').forEach(e=>e.remove());
-            // <article class="card p-3 bg-dark text-light my-4">
+            // <article class='card p-3 bg-dark text-light my-4'>
             //     <h3>Story Title</h3>
             //     <img>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium voluptatum esse tenetur,
             //         numquam
             //         pariatur expedita laboriosam quo officiis, animi eaque vero quae dignissimos minus explicabo
             //         praesentium dicta eos perferendis blanditiis.</p>
-            //     <button class="btn btn-light text-dark mt-3">Learn More</button>
+            //     <button class='btn btn-light text-dark mt-3'>Learn More</button>
             // </article>
 
             for (var result of data.results) {
@@ -97,10 +97,10 @@ function getHistory(city) {
                 btnEl.className = 'btn btn-light text-dark mt-auto';
                 btnEl.textContent = 'Learn More';
                 btnEl.href = result.url;
-                btnEl.target = "_blank";
+                btnEl.target = '_blank';
 
                 cardEl.append(h3El, imgEl, btnEl);
-                articleEl.append(cardEl)
+                articleEl.append(cardEl);
                 wrap.append(articleEl);
             }
         })
