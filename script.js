@@ -8,7 +8,9 @@ var wrap = document.querySelector('.textWrap');
 var apiKey = '062ac5aed23ac309d8aa8d7807a42e70';
 
 function init() {
+    // Checks location of user upon initialization
     if (location.search) {
+        // Uses last stored city to populate search results and map
         var storedCity = JSON.parse(localStorage.getItem('cities')) || [];
         var q = storedCity.pop();
         getHistory(q);
@@ -16,6 +18,33 @@ function init() {
     }
 };
 
+// Stores searched cities in local storage
+function storeCity(city) {
+    var storedCity = JSON.parse(localStorage.getItem('cities')) || [];
+    storedCity.push(city);
+    localStorage.setItem('cities', JSON.stringify(storedCity));
+}
+
+// Gets the geographical longitude and latitude of the city
+function getLocation(city) {
+    // Allow cities with spaces in their names to be inserted in the URL
+    var newCity = city.replace(/ /g, '+');
+    // Fetches geocode data via Open Weather Map
+    // Reference: https://openweathermap.org/api/geocoding-api
+    fetch('https://api.openweathermap.org/geo/1.0/direct?q=' + newCity + '&limit=1&appid=' + apiKey)
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        initializeMap();
+        getMap(city, data[0].lat, data[0].lon);
+    })
+    .catch(function (err) {
+        console.log(err);
+    });
+}
+
+// Refreshes map for each search
 function initializeMap() {
     var container = L.DomUtil.get('map');
     if (container != null) {
@@ -23,12 +52,8 @@ function initializeMap() {
     }
 }
 
-function storeCity(city) {
-    var storedCity = JSON.parse(localStorage.getItem('cities')) || [];
-    storedCity.push(city);
-    localStorage.setItem('cities', JSON.stringify(storedCity));
-}
-
+// Uses latitude and longitude from getLocation to display map
+// Leaflet Reference: https://leafletjs.com/examples/quick-start/
 function getMap(city, lat, lon) {
     mapTitle.textContent = city;
     var map = L.map('map').setView([lat, lon], 12);
@@ -41,43 +66,28 @@ function getMap(city, lat, lon) {
 
 }
 
-// Gets the geographical longitude and latitude of the city
-function getLocation(city) {
-    // Allow cities with spaces in their names to be inserted in the URL
-    var newCity = city.replace(/ /g, '+');
-    // Fetches geocode data via Open Weather Map
-    // Reference: https://openweathermap.org/api/geocoding-api
-    fetch('https://api.openweathermap.org/geo/1.0/direct?q=' + newCity + '&limit=1&appid=' + apiKey)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            // TODO: create getMap function
-            initializeMap();
-            getMap(city, data[0].lat, data[0].lon);
-        })
-        .catch(function (err) {
-            console.log(err);
-        });
-}
-
-
+// Displays search results of historical maps
 function getHistory(city) {
+    // Fetches maps from Library of Congress using city name
+    // Reference: https://libraryofcongress.github.io/data-exploration/requests.html#format
     fetch('https://www.loc.gov/maps/?q=' + city + '&fo=json&c=9')
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
+            // Resets the articleELs for each search
             document.querySelectorAll('.mapResult').forEach(e=>e.remove());
-            // <article class='card p-3 bg-dark text-light my-4'>
-            //     <h3>Story Title</h3>
-            //     <img>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium voluptatum esse tenetur,
-            //         numquam
-            //         pariatur expedita laboriosam quo officiis, animi eaque vero quae dignissimos minus explicabo
-            //         praesentium dicta eos perferendis blanditiis.</p>
-            //     <button class='btn btn-light text-dark mt-3'>Learn More</button>
+
+            // Template for cards
+            // <article class='col-12 col-md-6 mapResult'>
+            //     <div class='card p-3 bg-dark text-light mb-4 h-100'>
+            //         <h3>result.title</h3>
+            //         <img class='mt-auto'/>
+            //         <button class='btn btn-light text-dark mt-auto'>Learn More</button>
+            //     <?div>
             // </article>
 
+            // Display mapResults
             for (var result of data.results) {
                 var articleEl = document.createElement('article');
                 articleEl.className = 'col-12 col-md-6 mapResult';
@@ -115,8 +125,10 @@ formEl.addEventListener('submit', function (event) {
     event.preventDefault();
     var q = qEl.value.trim();
 
+    // If there is no input in the form, do nothing.
     if (!q) return;
 
+    // Checks location of the user before continuing
     if (searchResultsEl) {
         getHistory(q);
         storeCity(q);
