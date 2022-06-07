@@ -1,4 +1,3 @@
-// https://www.loc.gov/FORMAT/?q=civilwar&fo=json |Search with format
 var searchResultsEl = document.querySelector('#search-results');
 var qEl = document.querySelector('#q');
 var formEl = document.querySelector('.search-form');
