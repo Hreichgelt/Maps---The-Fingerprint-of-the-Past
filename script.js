@@ -73,7 +73,7 @@ function storeCity(city) {
 }
 
 function getHistory(city) {
-    fetch('https://www.loc.gov/maps/?q=' + city + '&fo=json&c=10')
+    fetch('https://www.loc.gov/maps/?q=' + city + '&fo=json&c=9')
         .then(function (response) {
             return response.json();
         })
@@ -101,11 +101,11 @@ function getHistory(city) {
 
                 var imgEl = document.createElement('img');
                 imgEl.src = result.image_url[2];
-                
-
+                imgEl.alt = 'Image Failed to Load';
+                imgEl.className = 'mt-auto';
 
                 var btnEl = document.createElement('a');
-                btnEl.className = 'btn btn-light text-dark mt-3';
+                btnEl.className = 'btn btn-light text-dark mt-auto';
                 btnEl.textContent = 'Learn More';
                 btnEl.href = result.url;
                 btnEl.target = "_blank";
