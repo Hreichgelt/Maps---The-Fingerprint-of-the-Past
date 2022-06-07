@@ -1,14 +1,14 @@
 // https://www.loc.gov/FORMAT/?q=civilwar&fo=json |Search with format
 var searchResultsEl = document.querySelector('#search-results');
 var qEl = document.querySelector('#q');
-var formEl = document.querySelector('#search-form');
+var formEl = document.querySelector('.search-form');
 var mapTitle = document.querySelector(".city-head")
 
 var apiKey = '062ac5aed23ac309d8aa8d7807a42e70';
 // newMap = map.remove();
 
 
-function getMap(city, lat, lon){
+function getMap(city, lat, lon) {
 
     // newMap;
     console.log(lat, lon)
@@ -22,19 +22,25 @@ function getMap(city, lat, lon){
     }).addTo(map);
     var marker = L.marker([lat, lon]).addTo(map);
     marker.bindPopup(city);
-  
+
 }
 
 
-function initializeMap (){
+function initializeMap() {
     var container = L.DomUtil.get('map');
-    if(container != null){
-    container._leaflet_id = null;
+    if (container != null) {
+        container._leaflet_id = null;
     }
 }
 function init() {
-
-}
+    if (location.search) {
+        var url = new URL(location.href);
+        var q = url.searchParams.get('q');
+        getHistory(q);
+        storeCity(q);
+        getLocation(q);
+    }
+};
 
 // Gets the geographical longitude and latitude of the city
 function getLocation(city) {
@@ -50,12 +56,18 @@ function getLocation(city) {
             // TODO: create getMap function
             initializeMap();
             getMap(city, data[0].lat, data[0].lon);
-            
+
             console.log(data);
         })
         .catch(function (err) {
             console.log(err);
         });
+}
+
+function storeCity(city) {
+    var storedCity = JSON.parse(localStorage.getItem("cities")) || [];
+    storedCity.push(city);
+    localStorage.setItem("cities", JSON.stringify(storedCity));
 }
 
 function getHistory(city) {
@@ -77,7 +89,7 @@ function getHistory(city) {
 
             for (var result of data.results) {
                 var articleEl = document.createElement('article');
-                articleEl.className = 'card p-3 bg-dark text-light my-4';
+                articleEl.className = 'card p-3 bg-dark text-light mb-4';
 
                 var h3El = document.createElement('h3');
                 h3El.textContent = result.title;
@@ -107,8 +119,13 @@ formEl.addEventListener('submit', function (event) {
 
     if (!q) return;
 
-    getLocation(q);
-    getHistory(q);
+    if (searchResultsEl) {
+        getHistory(q);
+        storeCity(q);
+        getLocation(q);
+    } else {
+        location.replace('./results.html?q=' + q);
+    }
 });
 
 init();
