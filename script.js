@@ -7,6 +7,27 @@ var wrap = document.querySelector('.textWrap');
 
 var apiKey = '062ac5aed23ac309d8aa8d7807a42e70';
 
+function init() {
+    if (location.search) {
+        var storedCity = JSON.parse(localStorage.getItem('cities')) || [];
+        var q = storedCity.pop();
+        getHistory(q);
+        getLocation(q);
+    }
+};
+
+function initializeMap() {
+    var container = L.DomUtil.get('map');
+    if (container != null) {
+        container._leaflet_id = null;
+    }
+}
+
+function storeCity(city) {
+    var storedCity = JSON.parse(localStorage.getItem('cities')) || [];
+    storedCity.push(city);
+    localStorage.setItem('cities', JSON.stringify(storedCity));
+}
 
 function getMap(city, lat, lon) {
     mapTitle.textContent = city;
@@ -19,22 +40,6 @@ function getMap(city, lat, lon) {
     marker.bindPopup(city);
 
 }
-
-
-function initializeMap() {
-    var container = L.DomUtil.get('map');
-    if (container != null) {
-        container._leaflet_id = null;
-    }
-}
-function init() {
-    if (location.search) {
-        var storedCity = JSON.parse(localStorage.getItem('cities')) || [];
-        var q = storedCity.pop();
-        getHistory(q);
-        getLocation(q);
-    }
-};
 
 // Gets the geographical longitude and latitude of the city
 function getLocation(city) {
@@ -56,11 +61,6 @@ function getLocation(city) {
         });
 }
 
-function storeCity(city) {
-    var storedCity = JSON.parse(localStorage.getItem('cities')) || [];
-    storedCity.push(city);
-    localStorage.setItem('cities', JSON.stringify(storedCity));
-}
 
 function getHistory(city) {
     fetch('https://www.loc.gov/maps/?q=' + city + '&fo=json&c=9')
