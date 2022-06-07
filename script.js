@@ -5,22 +5,33 @@ var formEl = document.querySelector('#search-form');
 var mapTitle = document.querySelector(".city-head")
 
 var apiKey = '062ac5aed23ac309d8aa8d7807a42e70';
+// newMap = map.remove();
+
 
 function getMap(city, lat, lon){
+
+    // newMap;
     console.log(lat, lon)
-    var map; 
+    // var map; 
     // map.innerText = null; 
-    mapTitle.textContent = city.toUpperCase();
-    map = L.map('map').setView([lat, lon], 12);
+    mapTitle.textContent = city;
+    var map = L.map('map').setView([lat, lon], 12);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '© OpenStreetMap'
     }).addTo(map);
     var marker = L.marker([lat, lon]).addTo(map);
-    
-
+    marker.bindPopup(city);
+  
 }
 
+
+function initializeMap (){
+    var container = L.DomUtil.get('map');
+    if(container != null){
+    container._leaflet_id = null;
+    }
+}
 function init() {
 
 }
@@ -37,7 +48,9 @@ function getLocation(city) {
         })
         .then(function (data) {
             // TODO: create getMap function
+            initializeMap();
             getMap(city, data[0].lat, data[0].lon);
+            
             console.log(data);
         })
         .catch(function (err) {

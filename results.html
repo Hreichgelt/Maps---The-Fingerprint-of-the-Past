@@ -15,7 +15,13 @@
         integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
         crossorigin=""></script>
     <style>
-        #map { height: 100vh;  }
+        #map { height: 100vh;
+            text-transform: capitalize;
+            border-radius: 20px;
+        }
+        .city-head{
+            text-transform: capitalize;
+        }
     </style>
 </head>
 
@@ -29,7 +35,7 @@
     </header>
     <section class="row">
         <h2 class="city-head"></h2>
-        <div id="map" class="col-12 col-md-6">Map</div>
+        <div id="map" class="col-12 col-md-6">map</div>
         <article id="search-results" class="col-12 col-md-6">
             <article class="card p-3 bg-dark text-light ">
                 <h3>Story Title</h3>
