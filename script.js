@@ -15,24 +15,25 @@ function init() {
         // Refreshes select form & creates default selected option
         selectEl.innerHTML = null;
         var selectedEl = document.createElement('option');
-        selectedEl.innerHTML = 'Search History'
+        selectedEl.innerHTML = 'SEARCH HISTORY'
         selectedEl.selected = true;
         selectEl.append(selectedEl);
         
+        var unique = [];
         // Adds search history to select form
         for (var item of storedCity) {
-            var optionEl = document.createElement('option');
-            optionEl.innerHTML = item;
-            optionEl.setAttribute('style', 'text-transform: capitalize;');
-            selectEl.append(optionEl);
+            if(!unique.includes(item)) {
+                unique.push(item);
+                var optionEl = document.createElement('option');
+                optionEl.innerHTML = item;
+                selectEl.append(optionEl);
+            }
         }
         
         // Uses last stored city to populate search results and map
         var q = storedCity.pop();
         getHistory(q);
         getLocation(q);
-
-       
     }
 };
 
@@ -81,7 +82,6 @@ function getMap(city, lat, lon) {
     }).addTo(map);
     var marker = L.marker([lat, lon]).addTo(map);
     marker.bindPopup(city);
-
 }
 
 // Displays search results of historical maps
@@ -145,6 +145,8 @@ formEl.addEventListener('submit', function (event) {
 
     // If there is no input in the form, do nothing.
     if (!q) return;
+    
+    q = q.toUpperCase();
 
     // Checks location of the user before continuing
     if (searchResultsEl) {
