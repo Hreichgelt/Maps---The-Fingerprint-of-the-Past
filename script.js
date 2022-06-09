@@ -159,4 +159,9 @@ formEl.addEventListener('submit', function (event) {
     }
 });
 
+selectEl.addEventListener('change', function () {
+    getHistory(this.value);
+    getLocation(this.value);
+})
+
 init();
