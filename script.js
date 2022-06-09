@@ -23,7 +23,7 @@ function init() {
         for (var item of storedCity) {
             var optionEl = document.createElement('option');
             optionEl.innerHTML = item;
-            console.log(optionEl);
+            optionEl.setAttribute('style', 'text-transform: capitalize;');
             selectEl.append(optionEl);
         }
         
