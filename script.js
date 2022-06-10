@@ -17,6 +17,7 @@ function init() {
         var selectedEl = document.createElement('option');
         selectedEl.innerHTML = 'SEARCH HISTORY'
         selectedEl.selected = true;
+        selectedEl.disabled = true;
         selectEl.append(selectedEl);
         
         var unique = [];
