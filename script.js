@@ -11,7 +11,7 @@ function init() {
     // Checks location of user upon initialization
     if (location.search) {
         var storedCity = JSON.parse(localStorage.getItem('cities')) || [];
-        
+
         // Refreshes select form & creates default selected option
         selectEl.innerHTML = null;
         var selectedEl = document.createElement('option');
@@ -19,18 +19,18 @@ function init() {
         selectedEl.selected = true;
         selectedEl.disabled = true;
         selectEl.append(selectedEl);
-        
+
         var unique = [];
         // Adds search history to select form
         for (var item of storedCity) {
-            if(!unique.includes(item)) {
+            if (!unique.includes(item)) {
                 unique.push(item);
                 var optionEl = document.createElement('option');
                 optionEl.innerHTML = item;
                 selectEl.append(optionEl);
             }
         }
-        
+
         // Uses last stored city to populate search results and map
         var q = storedCity.pop();
         getHistory(q);
@@ -107,31 +107,34 @@ function getHistory(city) {
             // </article>
 
             // Display mapResults
+            console.log(data.results);
             for (var result of data.results) {
-                var articleEl = document.createElement('article');
-                articleEl.className = 'col-12 col-md-6 mapResult';
+                if (result.image_url.length !== 0) {
+                    var articleEl = document.createElement('article');
+                    articleEl.className = 'col-12 col-md-6 mapResult';
 
-                var cardEl = document.createElement('div');
-                cardEl.className = 'card p-3 bg-dark text-light mb-4 h-100';
+                    var cardEl = document.createElement('div');
+                    cardEl.className = 'card p-3 bg-dark text-light mb-4 h-100';
 
-                var h3El = document.createElement('h3');
-                h3El.textContent = result.title;
+                    var h3El = document.createElement('h3');
+                    h3El.textContent = result.title;
 
-                var imgEl = document.createElement('img');
-                imgEl.src = result.image_url[2];
-                imgEl.alt = 'Image Failed to Load';
-                imgEl.className = 'mt-auto';
+                    var imgEl = document.createElement('img');
+                    imgEl.src = result.image_url[2];
+                    imgEl.alt = 'Image Failed to Load';
+                    imgEl.className = 'mt-auto';
 
-                var btnEl = document.createElement('a');
-                btnEl.className = 'btn btn-light text-dark mt-auto';
-                btnEl.textContent = 'Learn More';
-                btnEl.style.fontFamily = "'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif'";
-                btnEl.href = result.url;
-                btnEl.target = '_blank';
+                    var btnEl = document.createElement('a');
+                    btnEl.className = 'btn btn-light text-dark mt-auto';
+                    btnEl.textContent = 'Learn More';
+                    btnEl.style.fontFamily = "'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif'";
+                    btnEl.href = result.url;
+                    btnEl.target = '_blank';
 
-                cardEl.append(h3El, imgEl, btnEl);
-                articleEl.append(cardEl);
-                wrap.append(articleEl);
+                    cardEl.append(h3El, imgEl, btnEl);
+                    articleEl.append(cardEl);
+                    wrap.append(articleEl);
+                }
             }
         })
 
@@ -146,7 +149,7 @@ formEl.addEventListener('submit', function (event) {
 
     // If there is no input in the form, do nothing.
     if (!q) return;
-    
+
     q = q.toUpperCase();
 
     // Checks location of the user before continuing
