@@ -3,14 +3,34 @@ var qEl = document.querySelector('#q');
 var formEl = document.querySelector('.search-form');
 var mapTitle = document.querySelector('.city-head')
 var wrap = document.querySelector('.textWrap');
+var selectEl = document.querySelector('select');
 
 var apiKey = '062ac5aed23ac309d8aa8d7807a42e70';
 
 function init() {
     // Checks location of user upon initialization
     if (location.search) {
-        // Uses last stored city to populate search results and map
         var storedCity = JSON.parse(localStorage.getItem('cities')) || [];
+        
+        // Refreshes select form & creates default selected option
+        selectEl.innerHTML = null;
+        var selectedEl = document.createElement('option');
+        selectedEl.innerHTML = 'SEARCH HISTORY'
+        selectedEl.selected = true;
+        selectEl.append(selectedEl);
+        
+        var unique = [];
+        // Adds search history to select form
+        for (var item of storedCity) {
+            if(!unique.includes(item)) {
+                unique.push(item);
+                var optionEl = document.createElement('option');
+                optionEl.innerHTML = item;
+                selectEl.append(optionEl);
+            }
+        }
+        
+        // Uses last stored city to populate search results and map
         var q = storedCity.pop();
         getHistory(q);
         getLocation(q);
@@ -31,16 +51,16 @@ function getLocation(city) {
     // Fetches geocode data via Open Weather Map
     // Reference: https://openweathermap.org/api/geocoding-api
     fetch('https://api.openweathermap.org/geo/1.0/direct?q=' + newCity + '&limit=1&appid=' + apiKey)
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        initializeMap();
-        getMap(city, data[0].lat, data[0].lon);
-    })
-    .catch(function (err) {
-        console.log(err);
-    });
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            initializeMap();
+            getMap(city, data[0].lat, data[0].lon);
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
 }
 
 // Refreshes map for each search
@@ -62,7 +82,6 @@ function getMap(city, lat, lon) {
     }).addTo(map);
     var marker = L.marker([lat, lon]).addTo(map);
     marker.bindPopup(city);
-
 }
 
 // Displays search results of historical maps
@@ -75,7 +94,7 @@ function getHistory(city) {
         })
         .then(function (data) {
             // Resets the articleELs for each search
-            document.querySelectorAll('.mapResult').forEach(e=>e.remove());
+            document.querySelectorAll('.mapResult').forEach(e => e.remove());
 
             // Template for cards
             // <article class='col-12 col-md-6 mapResult'>
@@ -126,6 +145,8 @@ formEl.addEventListener('submit', function (event) {
 
     // If there is no input in the form, do nothing.
     if (!q) return;
+    
+    q = q.toUpperCase();
 
     // Checks location of the user before continuing
     if (searchResultsEl) {
@@ -137,5 +158,10 @@ formEl.addEventListener('submit', function (event) {
         storeCity(q);
     }
 });
+
+selectEl.addEventListener('change', function () {
+    getHistory(this.value);
+    getLocation(this.value);
+})
 
 init();
