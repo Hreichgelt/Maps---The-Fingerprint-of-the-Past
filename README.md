@@ -32,7 +32,7 @@ Upon arrival to the index.html page "Map-Search", users can enter a valid city i
 ## VISUALS 
 ![Maps](./assets/Maps%20__%20The%20Fingerprint%20of%20the%20Past.png)
 
-![Results Map](./assets/Maps%20__%20The%20Fingerprint%20of%20the%20Past%20(1).png)
+![Results Map](./assets/maps-the-fingerprint-of-the-past-new.png)
 
 
 
